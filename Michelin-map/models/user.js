@@ -3,26 +3,28 @@ const bcrypt   = require('bcrypt');
 const validator = require("validator");
 
 const userSchema = new mongoose.Schema({
+  firstname:    { type: String, required: true },
+  lastname:     { type: String, required: true },
   username:     { type: String, unique: true, required: true },
   email:        { type: String, unique: true, required: true },
   passwordHash: { type: String, required: true }
 });
 
 userSchema
-  .virtual('password')
-  .set(setPassword);
+.virtual('password')
+.set(setPassword);
 
 userSchema
-  .virtual("passwordConfirmation")
-  .set(setPasswordConfirmation);
+.virtual("passwordConfirmation")
+.set(setPasswordConfirmation);
 
 userSchema
-  .path("passwordHash")
-  .validate(validatePasswordHash);
+.path("passwordHash")
+.validate(validatePasswordHash);
 
-  userSchema
-    .path('email')
-    .validate(validateEmail);
+userSchema
+.path('email')
+.validate(validateEmail);
 
 userSchema.methods.validatePassword = validatePassword;
 
@@ -53,8 +55,8 @@ function validatePasswordHash() {
     }
 
     if (this._password.length < 6) {
-  this.invalidate('password', 'must be at least 6 characters.');
-}
+      this.invalidate('password', 'must be at least 6 characters.');
+    }
 
     if (this._password !== this._passwordConfirmation) {
       return this.invalidate("passwordConfirmation", "Passwords do not match.");

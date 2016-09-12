@@ -1,0 +1,20 @@
+{
+  "name": "michelinmap",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "ajaylard <ajay.lard@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/ajaylard/wdi-project-2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0"
+  }
+}
