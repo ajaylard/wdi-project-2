@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt   = require('bcrypt');
+const validator = require("validator");
 
 const userSchema = new mongoose.Schema({
   username:     { type: String, unique: true, required: true },
@@ -18,6 +19,10 @@ userSchema
 userSchema
   .path("passwordHash")
   .validate(validatePasswordHash);
+
+  userSchema
+    .path('email')
+    .validate(validateEmail);
 
 userSchema.methods.validatePassword = validatePassword;
 
@@ -47,9 +52,19 @@ function validatePasswordHash() {
       return this.invalidate("password", "A password is required.");
     }
 
+    if (this._password.length < 6) {
+  this.invalidate('password', 'must be at least 6 characters.');
+}
+
     if (this._password !== this._passwordConfirmation) {
       return this.invalidate("passwordConfirmation", "Passwords do not match.");
     }
+  }
+}
+
+function validateEmail(email) {
+  if (!validator.isEmail(email)) {
+    return this.invalidate('email', 'must be a valid email address');
   }
 }
 
