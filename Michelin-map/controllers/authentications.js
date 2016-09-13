@@ -9,6 +9,7 @@ const config = require('../config/config');
 
 function authenticationsRegister(req, res){
   User.create(req.body.user, (err, user) => {
+    console.log(err);
     if (err) return res.status(500).json({ message: "Something went wrong." });
 
     let token = jwt.sign(user._id, config.secret, { expiresIn: 60*60*24 });
@@ -22,9 +23,10 @@ function authenticationsRegister(req, res){
 }
 
 function authenticationsLogin(req, res){
-  User.findOne({ email: req.body.email }, (err, user) => {
+  console.log(req.body);
+  User.findOne({ email: req.body.user.email }, (err, user) => {
     if (err) return res.status(500).json({ message: "Something went wrong." });
-    if (!user || !user.validatePassword(req.body.password)) {
+    if (!user || !user.validatePassword(req.body.user.password)) {
       return res.status(401).json({ message: "Unauthorized." });
     }
 
@@ -32,7 +34,8 @@ function authenticationsLogin(req, res){
 
     return res.status(200).json({
       message: "Welcome back.",
-      user
+      user,
+      token
     });
   });
 }
