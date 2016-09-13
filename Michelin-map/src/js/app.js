@@ -1,3 +1,159 @@
+const App = App || {};
+
+App.init = function() {
+  this.apiUrl = "http://localhost:3000/api";
+  this.$main  = $("main");
+
+  this.homepage();
+
+  $(".home").on("click", this.homepage.bind(this));
+  $(".register").on("click", this.register.bind(this));
+  $(".login").on("click", this.login.bind(this));
+  $(".logout").on("click", this.logout.bind(this));
+
+  this.$main.on("submit", "form", this.handleForm);
+
+  if (this.getToken()) {
+    this.loggedInState();
+  } else {
+    this.loggedOutState();
+  }
+};
+
+App.homepage = function() {
+  this.$main.html(`
+    <h1>Michelin Map</h1>
+    <h3>Find the top restaurants in London</h3>
+    `);
+};
+
+App.login = function() {
+  if (event) event.preventDefault();
+  this.$main.html(`
+    <h2>Login</h2>
+    <br>
+    <form method="post" action="/login">
+      <label>Email</label><br>
+      <input type="text" name="user[email]">
+      <br>
+      <label>Password</label><br>
+      <input type="password" name="user[password]">
+      <br>
+      <br>
+      <input type="submit" value="Signin">
+    </form>
+    `);
+};
+
+App.register = function() {
+  if (event) event.preventDefault();
+  this.$main.html(`
+    <h2>Signup</h2>
+    <br>
+    <form method="post" action="/register">
+      <label>Firstname</label><br>
+      <input type="text" name="user[firstname]">
+      <br>
+      <label>Lastname</label><br>
+      <input type="text" name="user[lastname]">
+      <br>
+      <label>Username</label><br>
+      <input type="text" name="user[username]">
+      <br>
+      <label>Email</label><br>
+      <input type="text" name="user[email]">
+      <br>
+      <label>Password</label><br>
+      <input type="password" name="user[password]">
+      <br>
+      <label>Password Confirmation</label><br>
+      <input type="password" name="user[passwordConfirmation]">
+      <br>
+      <br>
+      <input type="submit" value="Sign up">
+    </form>
+    `);
+};
+
+App.handleForm = function() {
+  event.preventDefault();
+
+  let url    = `${App.apiUrl}${$(this).attr("action")}`;
+  let method = $(this).attr("method");
+  let data   = $(this).serialize();
+
+  $(this).trigger('reset');
+
+  return App.ajaxRequest(url, method, data, (data) => {
+    if (data.token) App.setToken(data.token);
+    App.loggedInState();
+  });
+
+};
+
+App.ajaxRequest = function(url, method, data, callback){
+  return $.ajax({
+    url,
+    method,
+    data,
+    beforeSend: this.setRequestHeader.bind(this)
+  })
+  .done(callback)
+  .fail(data => {
+    console.log(data);
+  });
+};
+
+App.logout = function() {
+  event.preventDefault();
+  this.removeToken();
+  this.loggedOutState();
+};
+
+App.loggedInState = function(){
+  $(".loggedOut").hide();
+  $(".loggedIn").show();
+  this.mapSetup();
+};
+
+App.loggedOutState = function(){
+  $(".loggedOut").show();
+  $(".loggedIn").hide();
+  this.homepage();
+};
+
+App.setRequestHeader = function(xhr, settings) {
+  return xhr.setRequestHeader("Authorization", `Bearer ${this.getToken()}`);
+};
+
+App.setToken = function(token){
+  return window.localStorage.setItem("token", token);
+};
+
+App.getToken = function(){
+  return window.localStorage.getItem("token");
+};
+
+App.removeToken = function(){
+  return window.localStorage.clear();
+};
+
+App.mapSetup = function() {
+  this.$main.html(`<div id="map-canvas"></div>`);
+
+  let canvas = document.getElementById('map-canvas');
+  let mapOptions = {
+    zoom: 13,
+    center: new google.maps.LatLng(51.506178,-0.088369),
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    styles: [{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"simplified"},{"hue":"#0066ff"},{"saturation":74},{"lightness":100}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"off"},{"weight":0.6},{"saturation":-85},{"lightness":61}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road.local","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"simplified"},{"color":"#5f94ff"},{"lightness":26},{"gamma":5.86}]}]
+  };
+
+  this.map = new google.maps.Map(canvas, mapOptions);
+};
+
+$(App.init.bind(App));
+
 // //map and markers
 //
 // const googleMap = googleMap || {};
@@ -108,144 +264,3 @@
 // };
 //
 // $(googleMap.init.bind(googleMap));
-
-const App = App || {};
-
-App.init = function() {
-  this.apiUrl = "http://localhost:3000/api";
-  this.$main  = $("main");
-
-  $(".register").on("click", this.register.bind(this));
-  $(".login").on("click", this.login.bind(this));
-  $(".logout").on("click", this.logout.bind(this));
-  this.$main.on("submit", "form", this.handleForm);
-
-  if (this.getToken()) {
-    this.loggedInState();
-  } else {
-    this.loggedOutState();
-  }
-};
-
-App.login = function() {
-  if (event) event.preventDefault();
-  this.$main.html(`
-    <h2>Login</h2>
-    <br>
-    <form method="post" action="/login">
-      <label>Email</label><br>
-      <input type="text" name="user[email]">
-      <br>
-      <label>Password</label><br>
-      <input type="password" name="user[password]">
-      <br>
-      <br>
-      <input type="submit" value="Signin">
-    </form>
-    `);
-};
-
-App.register = function() {
-  if (event) event.preventDefault();
-  this.$main.html(`
-    <h2>Signup</h2>
-    <br>
-    <form method="post" action="/register">
-      <label>Firstname</label><br>
-      <input type="text" name="user[firstname]">
-      <br>
-      <label>Lastname</label><br>
-      <input type="text" name="user[lastname]">
-      <br>
-      <label>Username</label><br>
-      <input type="text" name="user[username]">
-      <br>
-      <label>Email</label><br>
-      <input type="text" name="user[email]">
-      <br>
-      <label>Password</label><br>
-      <input type="password" name="user[password]">
-      <br>
-      <label>Password Confirmation</label><br>
-      <input type="password" name="user[passwordConfirmation]">
-      <br>
-      <br>
-      <input type="submit" value="Sign up">
-    </form>
-    `);
-};
-
-App.handleForm = function() {
-  event.preventDefault();
-
-  let url    = `${App.apiUrl}${$(this).attr("action")}`;
-  let method = $(this).attr("method");
-  let data   = $(this).serialize();
-
-  $(this).trigger('reset');
-
-  return App.ajaxRequest(url, method, data, (data) => {
-    if (data.token) App.setToken(data.token);
-    App.loggedInState();
-  });
-
-};
-
-App.ajaxRequest = function(url, method, data, callback){
-  return $.ajax({
-    url,
-    method,
-    data,
-    beforeSend: this.setRequestHeader.bind(this)
-  })
-  .done(callback)
-  .fail(data => {
-    console.log(data);
-  });
-};
-
-App.logout = function() {
-  event.preventDefault();
-  this.removeToken();
-  this.loggedOutState();
-};
-
-App.loggedInState = function(){
-  $(".loggedOut").hide();
-  $(".loggedIn").show();
-};
-
-App.loggedOutState = function(){
-  $(".loggedOut").show();
-  $(".loggedIn").hide();
-};
-
-App.setRequestHeader = function(xhr, settings) {
-  return xhr.setRequestHeader("Authorization", `Bearer ${this.getToken()}`);
-};
-
-App.setToken = function(token){
-  return window.localStorage.setItem("token", token);
-};
-
-App.getToken = function(){
-  return window.localStorage.getItem("token");
-};
-
-App.removeToken = function(){
-  return window.localStorage.clear();
-};
-
-App.mapSetup = function() {
-  let canvas = document.getElementById('map-canvas');
-  let mapOptions = {
-    zoom: 13,
-    center: new google.maps.LatLng(51.506178,-0.088369),
-    mapTypeId: google.maps.MapTypeId.ROADMAP,
-    styles: [{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"simplified"},{"hue":"#0066ff"},{"saturation":74},{"lightness":100}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"off"},{"weight":0.6},{"saturation":-85},{"lightness":61}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road.local","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"simplified"},{"color":"#5f94ff"},{"lightness":26},{"gamma":5.86}]}]
-  };
-
-  this.map = new google.maps.Map(canvas, mapOptions);
-};
-
-$(App.init.bind(App));
