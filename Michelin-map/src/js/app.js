@@ -146,15 +146,54 @@ App.mapSetup = function() {
     zoom: 13,
     center: new google.maps.LatLng(51.506178,-0.088369),
     mapTypeId: google.maps.MapTypeId.ROADMAP,
-    styles: [{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"simplified"},{"hue":"#0066ff"},{"saturation":74},{"lightness":100}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"off"},{"weight":0.6},{"saturation":-85},{"lightness":61}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road.local","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"simplified"},{"color":"#5f94ff"},{"lightness":26},{"gamma":5.86}]}]
   };
 
+
   this.map = new google.maps.Map(canvas, mapOptions);
+  this.getRestaurants();
+
 };
+
+App.getRestaurants = function(){
+  return $.get(`${this.apiUrl}/restaurants`).done(this.loopThroughRestaurants.bind(this));
+};
+
+App.loopThroughRestaurants = function(data) {
+  return $.each(data.restaurants, this.createMarkerForRestaurant.bind(this));
+};
+
+App.createMarkerForRestaurant = function(index, restaurant) {
+  let latlng = new google.maps.LatLng(restaurant.lat, restaurant.lng);
+
+  let marker = new google.maps.Marker({
+    position: latlng,
+    map: this.map
+  });
+  
+  this.addInfoWindowForRestaurant(restaurant, marker);
+};
+
+App.addInfoWindowForRestaurant = function(restaurant, marker) {
+  google.maps.event.addListener(marker, 'click', () => {
+    if (typeof this.infowindow != "undefined") this.infowindow.close();
+
+    this.infowindow = new google.maps.InfoWindow({
+      content: `
+                <div class="info">
+                  <h3>${ restaurant.name }</h3>
+                  <p>${ restaurant.description}</p>
+                </div>
+               `
+    });
+    this.infowindow.open(this.map, marker);
+       this.map.setCenter(marker.getPosition());
+     });
+   };
 
 $(App.init.bind(App));
 
-// //map and markers
+
+// /////////////////map and markers//////////////////////////
 //
 // const googleMap = googleMap || {};
 //
