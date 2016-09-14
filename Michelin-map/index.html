@@ -22,13 +22,24 @@
         <li><a href="#" id="logout">Logout</a></li>
         <br>
         <label id = "starstitle"> HOW MANY MICHELIN STARS?</label>
-        <form method="post" action="/stars">
+        <form id= "starsform" method="post" action="/stars">
           <label for="one-star">ONE</label>
           <input id="one-star" type="radio" name="stars">
           <label for="two-star">TWO</label>
           <input id="two-star" type="radio" name="stars">
           <label for="three-star">THREE</label>
           <input id="three-star" type="radio" name="stars">
+
+          <!-- <label for="one-star">ONE</label>
+          <div id="one-star-wrapper" style="background-image: img:"./images/redmstar.png">
+          <input id="one-star" type="checkbox" />
+          </div>
+          <label for="two-star">TWO</label>
+
+          <div id="two-star-wrapper" style="background-image: url("./images/redmstar.png")>
+          <input id="two-star" type="checkbox" />
+        </div> -->
+
         </form>
       </ul>
     </nav>

@@ -27,8 +27,8 @@ App.init = function() {
 
 App.homepage = function() {
   this.$main.html(`
-    <h1>STAR GAZING</h1>
-    <h3>Find the top restaurants in London</h3>
+    <h1>STAR GRAZING</h1>
+    <h3>Find Michelin star restaurants in London</h3>
     <img id="homeimg" src="./images/cleanplatecrop.png">
     `);
 };
@@ -230,7 +230,7 @@ App.addInfoWindowForRestaurant = function(restaurant, marker) {
                 <div class="info">
                   <h2>${ restaurant.name }</h3>
                   <h3>${ `Michelin Stars: `+ restaurant.michelinStars }</h3>
-                  <p>${ `Cuisine: `+ restaurant.cuisine}</p>
+                  <p id="infocuisine">${ `Cuisine: `+ restaurant.cuisine}</p>
                   <p>${ restaurant.description}</p>
                   <p>${ `Address: `+restaurant.address+`, `+restaurant.postCode}</p>
                   <a href=http://${restaurant.website}>${restaurant.website}</a>
@@ -239,6 +239,9 @@ App.addInfoWindowForRestaurant = function(restaurant, marker) {
                 </div>
                `
     });
+
+    console.log("OI", restaurant.website.match(/\.(.*)\./).pop());
+
     this.infowindow.open(this.map, marker);
        this.map.setCenter(marker.getPosition());
      });

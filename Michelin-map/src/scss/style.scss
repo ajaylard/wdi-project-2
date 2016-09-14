@@ -26,42 +26,46 @@ ul {
 }
 
 nav {
-  colour:#de1d1d;
+  padding-top: 20px;
+  color:#de1d1d;
   display:inline-block;
   width: 100%;
-  text-align: center;
+  margin: 0 auto;
 }
 
 #homeimg{
   width: 100%;
   box-shadow: 0 0 8px 8px white inset;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 h1, {
   font-family: 'Julius Sans One', sans-serif;
-  letter-spacing: 10PX;
+  letter-spacing: 10px;
   font-weight: bold;
-  colour:#de1d1d;
   text-align: center;
+  color:#de1d1d;
+  width: 100%;
 }
 
 h2 {
     font-family: 'Julius Sans One', sans-serif;
-    letter-spacing: 10PX;
+    letter-spacing: 10px;
     font-weight: bold;
-    colour:#de1d1d;
     text-align: center;
+    color:#de1d1d;
 }
 
 h3, {
   font-family: 'Josefin Sans', sans-serif;
   text-align: center;
+  width: 100%;
+  font-size: 24px;
+  padding-top: 10px;
 }
 
 #loggedIn{
   text-align: center;
-
 }
 
 #loggedIn{
@@ -76,4 +80,40 @@ h3, {
 .signupform{
   text-align: center;
   font-family: 'Josefin Sans', sans-serif;
+}
+
+#starstitle{
+  font-family: 'Julius Sans One', sans-serif;
+  letter-spacing: 10px;
+  font-weight: bolder;
+  color:#de1d1d;
+}
+
+#starsform{
+  font-family: 'Julius Sans One', sans-serif;
+  letter-spacing: 10px;
+  font-size: 14px;
+  padding-top: 10px;
+}
+
+#infocuisine{
+  font-family: 'Julius Sans One', sans-serif;
+  font-weight: bold;
+}
+
+a#register, a#login{
+  color:#b39552;
+}
+
+a#logout {
+  color:#b39552;
+  float:left;
+}
+
+a#register:hover, a#login:hover, a#logout:hover {
+  color:#941313;
+}
+
+input#one-star{
+  color:#941313;
 }
