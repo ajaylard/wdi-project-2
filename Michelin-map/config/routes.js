@@ -11,7 +11,6 @@ const restaurants     = require("../controllers/restaurants");
 router.route("/")
   .get(statics.home);
 
-//user routes
 router.route("/register")
   .post(authentications.register);
 router.route("/login")
@@ -22,5 +21,5 @@ router.route('/users/:id')
   .delete(users.delete);
 router.route("/restaurants")
   .get(restaurants.index);
-  
+
 module.exports = router;

@@ -1,18 +1,18 @@
 const mongoose = require("mongoose");
 
 const restaurantSchema = new mongoose.Schema({
-  name:           { type: String, trim: true, required: true },
-  phoneNumber:    { type: String, trim: true, required: true },
-  address:        { type: String, trim: true, required: true },
-  postCode:       { type: String, trim: true, required: true },
-  website:        { type: String, trim: true, required: true },
-  email:          { type: String, trim: true, required: true },
-  mealPrice:      { type: String, trim: true, required: true },
-  michelinStars:  { type: String, trim: true, required: true },
-  cuisine:        { type: String, trim: true, required: true },
-  description:    { type: String, trim: true, required: true },
-  lat:            { type: String, time: true, required: true },
-  lng:            { type: String, time: true, required: true },
+  name:           { type: String, trim: true },
+  phoneNumber:    { type: String, trim: true },
+  address:        { type: String, trim: true },
+  postCode:       { type: String, trim: true },
+  website:        { type: String, trim: true },
+  email:          { type: String, trim: true },
+  mealPrice:      { type: String, trim: true },
+  michelinStars:  { type: String, trim: true },
+  cuisine:        { type: String, trim: true },
+  description:    { type: String, trim: true },
+  lat:            { type: String, time: true },
+  lng:            { type: String, time: true },
 }, {
   timestamps: true
 });

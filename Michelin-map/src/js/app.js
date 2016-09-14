@@ -3,6 +3,8 @@ const App = App || {};
 App.init = function() {
   this.apiUrl = "http://localhost:3000/api";
   this.$main  = $("main");
+  this.restaurantData = [];
+  this.markers = [];
 
   this.homepage();
 
@@ -10,6 +12,9 @@ App.init = function() {
   $(".register").on("click", this.register.bind(this));
   $(".login").on("click", this.login.bind(this));
   $(".logout").on("click", this.logout.bind(this));
+  $("#one-star").on("click", this.oneStar.bind(this));
+  $("#two-star").on("click", this.twoStar.bind(this));
+  $("#three-star").on("click", this.threeStar.bind(this));
 
   this.$main.on("submit", "form", this.handleForm);
 
@@ -40,7 +45,7 @@ App.login = function() {
       <input type="password" name="user[password]">
       <br>
       <br>
-      <input type="submit" value="Signin">
+      <input type="submit" value="Sign in">
     </form>
     `);
 };
@@ -110,6 +115,32 @@ App.logout = function() {
   this.loggedOutState();
 };
 
+App.stars = function (howMany) {
+  let filteredRestaurants = [];
+
+  this.removeAllMarkers();
+  this.restaurantData.forEach(function (restaurant) {
+    if (restaurant.michelinStars === howMany.toString()) {
+      filteredRestaurants.push(restaurant);
+    }
+  });
+
+  this.addMarkers(filteredRestaurants);
+  console.log('stars:', howMany);
+};
+
+App.oneStar = function(event) {
+  this.stars("1");
+};
+
+App.twoStar = function(event) {
+  this.stars("2");
+};
+
+App.threeStar = function(event) {
+  this.stars("3");
+};
+
 App.loggedInState = function(){
   $(".loggedOut").hide();
   $(".loggedIn").show();
@@ -155,11 +186,22 @@ App.mapSetup = function() {
 };
 
 App.getRestaurants = function(){
-  return $.get(`${this.apiUrl}/restaurants`).done(this.loopThroughRestaurants.bind(this));
+  return $.get(`${this.apiUrl}/restaurants`).done(this.responseHandler.bind(this));
 };
 
-App.loopThroughRestaurants = function(data) {
-  return $.each(data.restaurants, this.createMarkerForRestaurant.bind(this));
+App.removeAllMarkers = function () {
+  this.markers.forEach((marker, index) => {
+    marker.setMap(null);
+  });
+};
+
+App.responseHandler = function(data) {
+  this.restaurantData = data.restaurants;
+  return this.addMarkers(this.restaurantData);
+};
+
+App.addMarkers = function(restaurantData) {
+  return $.each(restaurantData, this.createMarkerForRestaurant.bind(this));
 };
 
 App.createMarkerForRestaurant = function(index, restaurant) {
@@ -169,7 +211,9 @@ App.createMarkerForRestaurant = function(index, restaurant) {
     position: latlng,
     map: this.map
   });
-  
+
+  this.markers.push(marker);
+
   this.addInfoWindowForRestaurant(restaurant, marker);
 };
 
@@ -180,8 +224,14 @@ App.addInfoWindowForRestaurant = function(restaurant, marker) {
     this.infowindow = new google.maps.InfoWindow({
       content: `
                 <div class="info">
-                  <h3>${ restaurant.name }</h3>
+                  <h2>${ restaurant.name }</h3>
+                  <h3>${ `Michelin Stars: `+ restaurant.michelinStars }</h3>
+                  <p>${ `Cuisine: `+ restaurant.cuisine}</p>
                   <p>${ restaurant.description}</p>
+                  <p>${ `Address: `+restaurant.address+`, `+restaurant.postCode}</p>
+                  <a href=http://${restaurant.website}>${restaurant.website}</a>
+                  <p>${ `Email: `+ restaurant.email}</p>
+                  <p>${ `Meal Price: `+ restaurant.mealPrice}</p>
                 </div>
                `
     });
