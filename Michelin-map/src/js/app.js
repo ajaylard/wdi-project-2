@@ -8,10 +8,10 @@ App.init = function() {
 
   this.homepage();
 
-  $(".home").on("click", this.homepage.bind(this));
-  $(".register").on("click", this.register.bind(this));
-  $(".login").on("click", this.login.bind(this));
-  $(".logout").on("click", this.logout.bind(this));
+  $("#home").on("click", this.homepage.bind(this));
+  $("#register").on("click", this.register.bind(this));
+  $("#login").on("click", this.login.bind(this));
+  $("#logout").on("click", this.logout.bind(this));
   $("#one-star").on("click", this.oneStar.bind(this));
   $("#two-star").on("click", this.twoStar.bind(this));
   $("#three-star").on("click", this.threeStar.bind(this));
@@ -27,17 +27,18 @@ App.init = function() {
 
 App.homepage = function() {
   this.$main.html(`
-    <h1>Michelin Map</h1>
+    <h1>STAR GAZING</h1>
     <h3>Find the top restaurants in London</h3>
+    <img id="homeimg" src="./images/cleanplatecrop.png">
     `);
 };
 
 App.login = function() {
   if (event) event.preventDefault();
   this.$main.html(`
-    <h2>Login</h2>
+    <h2>LOG IN</h2>
     <br>
-    <form method="post" action="/login">
+    <form class="loginform" method="post" action="/login">
       <label>Email</label><br>
       <input type="text" name="user[email]">
       <br>
@@ -53,9 +54,9 @@ App.login = function() {
 App.register = function() {
   if (event) event.preventDefault();
   this.$main.html(`
-    <h2>Signup</h2>
+    <h2>SIGN UP</h2>
     <br>
-    <form method="post" action="/register">
+    <form class="signupform" method="post" action="/register">
       <label>Firstname</label><br>
       <input type="text" name="user[firstname]">
       <br>
@@ -142,14 +143,16 @@ App.threeStar = function(event) {
 };
 
 App.loggedInState = function(){
-  $(".loggedOut").hide();
-  $(".loggedIn").show();
+  $("#loggedOut").hide();
+  $("#loggedIn").show();
+  $("#home").hide();
   this.mapSetup();
 };
 
 App.loggedOutState = function(){
-  $(".loggedOut").show();
-  $(".loggedIn").hide();
+  $("#loggedOut").show();
+  $("#loggedIn").hide();
+  $("#home").hide();
   this.homepage();
 };
 
@@ -177,6 +180,7 @@ App.mapSetup = function() {
     zoom: 13,
     center: new google.maps.LatLng(51.506178,-0.088369),
     mapTypeId: google.maps.MapTypeId.ROADMAP,
+    styles:[{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"on"},{"lightness":33}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f7f7f7"}]},{"featureType":"poi.business","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#deecdb"}]},{"featureType":"poi.park","elementType":"labels","stylers":[{"visibility":"on"},{"lightness":"25"}]},{"featureType":"road","elementType":"all","stylers":[{"lightness":"25"}]},{"featureType":"road","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#ffffff"}]},{"featureType":"road.highway","elementType":"labels","stylers":[{"saturation":"-90"},{"lightness":"25"}]},{"featureType":"road.arterial","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#ffffff"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#ffffff"}]},{"featureType":"transit.line","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"transit.station","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"on"},{"color":"#e0f1f9"}]}]
   };
 
 

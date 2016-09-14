@@ -5,29 +5,33 @@
   <title>Restaurants</title>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxM36DxD-TmmCuWMML0UXBVSirOUkF42Q" charset="utf-8"></script>
   <script src="/js/app.js" charset="utf-8"></script>
+  <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <nav>
     <ul>
-      <li><a href="#" class="home">Home</a></li>
-      <ul class="loggedOut">
-        <li><a href="#" class="register">Register</a></li>
-        <li><a href="#" class="login">Login</a></li>
+      <li><a href="#" id="home">Home</a></li>
+      <ul id="loggedOut">
+        <li><a href="#" id="register">Register</a></li>
+        <li><a href="#" id="login">Login</a></li>
       </ul>
-      <ul class="loggedIn">
-        <li><a href="#" class="logout">Logout</a></li>
+      <ul id="loggedIn">
+        <!-- <li><a href="#" id="map">map</a></li> -->
+        <li><a href="#" id="logout">Logout</a></li>
+        <br>
+        <label id = "starstitle"> HOW MANY MICHELIN STARS?</label>
         <form method="post" action="/stars">
-          <label for="one-star">One</label>
+          <label for="one-star">ONE</label>
           <input id="one-star" type="radio" name="stars">
-          <label for="two-star">Two</label>
+          <label for="two-star">TWO</label>
           <input id="two-star" type="radio" name="stars">
-          <label for="three-star">Three</label>
+          <label for="three-star">THREE</label>
           <input id="three-star" type="radio" name="stars">
         </form>
       </ul>
-    </ul>
-  </nav>
-  <main></main>
-</body>
-</html>
+    </nav>
+    <main></main>
+  </body>
+  </html>
