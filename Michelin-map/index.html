@@ -6,40 +6,35 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxM36DxD-TmmCuWMML0UXBVSirOUkF42Q" charset="utf-8"></script>
   <script src="/js/app.js" charset="utf-8"></script>
   <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Gudea" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <nav>
-    <ul>
+    <ul class="navbar">
       <li><a href="#" id="home">Home</a></li>
       <ul id="loggedOut">
         <li><a href="#" id="register">Register</a></li>
         <li><a href="#" id="login">Login</a></li>
       </ul>
       <ul id="loggedIn">
-        <!-- <li><a href="#" id="map">map</a></li> -->
+        <li><a href="#" id="location">Find Me</a></li>
         <li><a href="#" id="logout">Logout</a></li>
         <br>
-        <label id = "starstitle"> HOW MANY MICHELIN STARS?</label>
-        <form id= "starsform" method="post" action="/stars">
-          <label for="one-star">ONE</label>
-          <input id="one-star" type="radio" name="stars">
-          <label for="two-star">TWO</label>
-          <input id="two-star" type="radio" name="stars">
-          <label for="three-star">THREE</label>
-          <input id="three-star" type="radio" name="stars">
-
-          <!-- <label for="one-star">ONE</label>
-          <div id="one-star-wrapper" style="background-image: img:"./images/redmstar.png">
-          <input id="one-star" type="checkbox" />
-          </div>
-          <label for="two-star">TWO</label>
-
-          <div id="two-star-wrapper" style="background-image: url("./images/redmstar.png")>
-          <input id="two-star" type="checkbox" />
-        </div> -->
-
+        <label id="starstitle"> HOW MANY MICHELIN STARS?</label>
+        <form id="starsform" method="post" action="/stars">
+          <label class="starslabel" for="one-star">
+            <input id="one-star" type="radio" name="stars">
+            <img src="/images/0.png" alt="" />
+          </label>
+          <label class="starslabel" for="two-star">
+            <input id="two-star" type="radio" name="stars">
+            <img src="/images/0.png" alt="" />
+          </label>
+          <label class="starslabel" for="three-star">
+            <input id="three-star" type="radio" name="stars">
+            <img src="/images/0.png" alt="" />
+          </label>
         </form>
       </ul>
     </nav>
