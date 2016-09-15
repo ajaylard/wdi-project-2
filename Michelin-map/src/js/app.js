@@ -29,10 +29,17 @@ App.init = function() {
 
 App.currentLocation = function() {
   navigator.geolocation.getCurrentPosition(function(position) {
+    let icon = {
+      url: `/images/0.png`,
+      scaledSize: new google.maps.Size(50, 50),
+      origin: new google.maps.Point(0,0),
+      anchor: new google.maps.Point(0, 0)
+    };
     let marker = new google.maps.Marker({
       position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
       map: App.map,
       animation: google.maps.Animation.DROP,
+      icon: icon
     });
 
     App.map.setCenter(marker.getPosition());
@@ -233,8 +240,9 @@ App.homepage = function() {
         let latlng = new google.maps.LatLng(restaurant.lat, restaurant.lng);
 
         let icon = {
-          url: `/images/${restaurant.michelinStars}.png`,
-          scaledSize: new google.maps.Size(15, 15),
+          // url: `/images/${restaurant.michelinStars}.png`,
+          url: `/images/pointempty.png`,
+          scaledSize: new google.maps.Size(30, 30),
           origin: new google.maps.Point(0,0),
           anchor: new google.maps.Point(0, 0)
         };
@@ -258,7 +266,7 @@ App.homepage = function() {
             content: `
             <div class="info">
             <h2>${ restaurant.name }</h3>
-            <h3>${ `Michelin Stars: `+ restaurant.michelinStars }</h3>
+            <h3 id="infostars" >${ `Michelin Stars: `+ restaurant.michelinStars }</h3>
             <p id="infocuisine">${ `Cuisine: `+ restaurant.cuisine}</p>
             <p>${ restaurant.description}</p>
             <p>${ `Address: `+restaurant.address+`, `+restaurant.postCode}</p>

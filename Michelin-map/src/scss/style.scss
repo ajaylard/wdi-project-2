@@ -71,6 +71,7 @@ h2 {
     font-family: 'Julius Sans One', sans-serif;
     letter-spacing: 10px;
     font-weight: bold;
+    font-size: 28px;
     text-align: center;
     color:#de1d1d;
 }
@@ -124,6 +125,7 @@ h3, {
   border: solid, #b39552 lighten;
   background: white;
   color: #b39552;
+  font-weight:bolder;
   height: 50px;
   width: 100px;
 }
@@ -137,6 +139,11 @@ h3, {
 label{
   padding-top:15px;
   color: #b39552;
+}
+
+#infostars{
+  color: #b39552;
+  font-weight: bold;
 }
 
 .starslabel{
@@ -191,6 +198,7 @@ label > input + img{ /* IMAGE STYLES */
   width: 50px;
   cursor:pointer;
   border:2px solid transparent;
+  padding-bottom: 10px;
 }
 
 label > input:checked + img{ /* (CHECKED) IMAGE STYLES */
