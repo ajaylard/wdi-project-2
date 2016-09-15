@@ -177,12 +177,15 @@ label{
   color:#b39552;
   text-decoration: none;
   float: left;
-
 }
-a#register:hover, a#login:hover, a#logout:hover {
+
+a#register:hover, a#login:hover, a#logout:hover, #location:hover {
   color:#941313;
   text-decoration: none;
+}
 
+#location:hover {
+  color: #7b990f;
 }
 
 input#one-star{

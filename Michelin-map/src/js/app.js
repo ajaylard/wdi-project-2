@@ -30,8 +30,8 @@ App.init = function() {
 App.currentLocation = function() {
   navigator.geolocation.getCurrentPosition(function(position) {
     let icon = {
-      url: `/images/0.png`,
-      scaledSize: new google.maps.Size(50, 50),
+      url: `/images/findmepoint.png`,
+      scaledSize: new google.maps.Size(35, 35),
       origin: new google.maps.Point(0,0),
       anchor: new google.maps.Point(0, 0)
     };
@@ -49,16 +49,16 @@ App.currentLocation = function() {
 App.changeRadio = function() {
 
   if ($(this).attr("for") === "one-star") {
-    $(this).children('img').attr("src", "/images/1.png");
-    $(this).siblings().children('img').attr("src", "/images/0.png");
+    $(this).children('img').attr("src", "/images/fullstar.png");
+    $(this).siblings().children('img').attr("src", "/images/emptystar.png");
   } else if ( $(this).attr("for") === "two-star") {
-    $(this).children('img').attr("src", "/images/1.png");
-    $(this).prev().children('img').attr("src", "/images/1.png");
-    $(this).next().children('img').attr("src", "/images/0.png");
+    $(this).children('img').attr("src", "/images/fullstar.png");
+    $(this).prev().children('img').attr("src", "/images/fullstar.png");
+    $(this).next().children('img').attr("src", "/images/emptystar.png");
   } else {
-    $(this).children('img').attr("src", "/images/1.png");
-    $(this).prev().children('img').attr("src", "/images/1.png");
-    $(this).prev().prev().children('img').attr("src", "/images/1.png");
+    $(this).children('img').attr("src", "/images/fullstar.png");
+    $(this).prev().children('img').attr("src", "/images/fullstar.png");
+    $(this).prev().prev().children('img').attr("src", "/images/fullstar.png");
   }
 };
 
@@ -77,7 +77,7 @@ App.homepage = function() {
       <br>
       <form class="loginform" method="post" action="/login">
       <label>Email</label><br>
-      <input class="signupspace" type="text" name="user[email]">
+      <input class="signupspace" type="text" name="user[email]" autocomplete="off">
       <br>
       <label>Password</label><br>
       <input class="signupspace" type="password" name="user[password]">
@@ -240,9 +240,8 @@ App.homepage = function() {
         let latlng = new google.maps.LatLng(restaurant.lat, restaurant.lng);
 
         let icon = {
-          // url: `/images/${restaurant.michelinStars}.png`,
-          url: `/images/pointempty.png`,
-          scaledSize: new google.maps.Size(30, 30),
+          url: `/images/${restaurant.michelinStars}.png`,
+          scaledSize: new google.maps.Size(35, 35),
           origin: new google.maps.Point(0,0),
           anchor: new google.maps.Point(0, 0)
         };
@@ -250,7 +249,8 @@ App.homepage = function() {
         let marker = new google.maps.Marker({
           position: latlng,
           map: this.map,
-          icon: icon
+          animation: google.maps.Animation.DROP,
+          icon
         });
 
         this.markers.push(marker);
