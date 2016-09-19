@@ -3,7 +3,7 @@ const config   = require("../config/config");
 const request  = require("request-promise");
 
 const Restaurant = require("../models/restaurant");
-const url        = "http://apir.viamichelin.com/apir/2/findPoi.json2/RESTAURANT/eng?center=-0.12:51.50&nb=200&dist=100000&source=RESGR&filter=michelin_stars%20ge%201&AGG.provider%20eq%20RESGR&charset=UTF-8&ie=UTF-8&authKey=RESTGP20160912161657237437181916";
+// const url        = "http://apir.viamichelin.com/apir/2/findPoi.json2/RESTAURANT/eng?center=-0.12:51.50&nb=200&dist=100000&source=RESGR&filter=michelin_stars%20ge%201&AGG.provider%20eq%20RESGR&charset=UTF-8&ie=UTF-8&authKey=RESTGP20160912161657237437181916";
 
 mongoose.connect(config.db);
 
